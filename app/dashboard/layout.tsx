@@ -56,6 +56,9 @@ const DashboardLayout = async (
           </DropdownMenuContent>
         </DropdownMenu>
       </header>
+      <main className='my-5'>
+        { children }
+      </main>
     </div>
   )
 }
