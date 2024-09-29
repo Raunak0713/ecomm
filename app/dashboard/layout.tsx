@@ -4,7 +4,7 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { Button } from '@/components/ui/button'
 import { CircleUserIcon, MenuIcon } from 'lucide-react'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
-import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server'
+import { getKindeServerSession, LogoutLink } from '@kinde-oss/kinde-auth-nextjs/server'
 import { redirect } from 'next/navigation'
 
 const DashboardLayout = async (
@@ -15,8 +15,9 @@ const DashboardLayout = async (
 
   const { getUser } = getKindeServerSession()
   const user = await getUser();
+  const adminEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL
 
-  if(!user){
+  if(!user || user.email !== adminEmail){
     return redirect("/")
   }
 
@@ -49,7 +50,9 @@ const DashboardLayout = async (
           <DropdownMenuContent align='end'>
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Logout</DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <LogoutLink>Logout</LogoutLink>
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </header>
