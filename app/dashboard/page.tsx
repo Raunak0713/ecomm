@@ -50,7 +50,7 @@ const Dashboard = () => {
               </div>
               <p className='ml-auto font-medium'>+$1,999</p>
             </div>
-
+              //
             <div className='flex items-center gap-4'>
               <Avatar className='hidden sm:flex'>
                 <AvatarFallback>RB</AvatarFallback>
