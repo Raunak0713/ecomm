@@ -5,12 +5,12 @@ import { LucideIcon } from 'lucide-react'; // assuming you're using Lucide icons
 interface DashboardCardProps {
   title: string;
   icon: LucideIcon;
-  value: string | number;
+  value: string;
   description: string;
   iconColor: string;
 }
 
-const DashboardCard: React.FC<DashboardCardProps> = ({ title, icon: Icon, value, description, iconColor }) => {
+const DashboardCard : React.FC<DashboardCardProps> = ({ title, icon: Icon, value, description, iconColor }) => {
   return (
     <Card>
       <CardHeader className='flex flex-row items-center justify-between pb-2'>
