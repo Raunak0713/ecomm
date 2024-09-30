@@ -1,24 +1,19 @@
-import React from 'react'
-import DashboardNavigation from '../components/dashboard/DashboardNavigation'
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
-import { Button } from '@/components/ui/button'
-import { CircleUserIcon, MenuIcon } from 'lucide-react'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
-import { getKindeServerSession, LogoutLink } from '@kinde-oss/kinde-auth-nextjs/server'
-import { redirect } from 'next/navigation'
+import React from 'react';
+import DashboardNavigation from '../components/dashboard/DashboardNavigation';
+import MobileNavigation from '@/app/components/dashboard/MobileNavigation'; // Client-side mobile navigation
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { Button } from '@/components/ui/button';
+import { CircleUserIcon } from 'lucide-react';
+import { getKindeServerSession, LogoutLink } from '@kinde-oss/kinde-auth-nextjs/server';
+import { redirect } from 'next/navigation';
 
-const DashboardLayout = async (
-  { children } 
-  : 
-  { children : React.ReactNode }
-) => {
-
-  const { getUser } = getKindeServerSession()
+const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
+  const { getUser } = getKindeServerSession();
   const user = await getUser();
-  const adminEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL
+  const adminEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL;
 
-  if(!user || user.email !== adminEmail){
-    return redirect("/")
+  if (!user || user.email !== adminEmail) {
+    return redirect('/');
   }
 
   return (
@@ -28,23 +23,14 @@ const DashboardLayout = async (
           <DashboardNavigation />
         </nav>
 
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button className='shrink-0 md:hidden' variant={'outline'} size={'icon'}>
-              <MenuIcon className='h-5 w-5' />
-            </Button>
-          </SheetTrigger>
-          <SheetContent side={'left'}>
-            <nav className='flex flex-col gap-6 text-lg font-medium mt-5'>
-              <DashboardNavigation />
-            </nav>
-          </SheetContent>
-        </Sheet>
+        {/* Mobile navigation (client-side component) */}
+        <MobileNavigation />
 
+        {/* User Profile Dropdown */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant={'secondary'} size={'icon'} className='rounded-full'>
-              <CircleUserIcon className='w-5 h-5'/>
+              <CircleUserIcon className='w-5 h-5' />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align='end'>
@@ -56,11 +42,10 @@ const DashboardLayout = async (
           </DropdownMenuContent>
         </DropdownMenu>
       </header>
-      <main className='my-5'>
-        { children }
-      </main>
-    </div>
-  )
-}
 
-export default DashboardLayout
+      <main className='my-5'>{children}</main>
+    </div>
+  );
+};
+
+export default DashboardLayout;
